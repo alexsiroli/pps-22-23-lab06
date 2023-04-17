@@ -8,9 +8,9 @@ trait Functions:
   def max(a: List[Int]): Int // gives Int.MinValue if a is empty
 
 object FunctionsImpl extends Functions:
-  override def sum(a: List[Double]): Double = ???
-  override def concat(a: Seq[String]): String = ???
-  override def max(a: List[Int]): Int = ???
+  override def sum(a: List[Double]): Double = a.foldRight(0.0)(_ + _)
+  override def concat(a: Seq[String]): String = a.foldRight("")(_ ++ _)
+  override def max(a: List[Int]): Int = a.foldRight(Integer.MIN_VALUE)(_ max _)
 
 /*
  * 2) To apply DRY principle at the best,
