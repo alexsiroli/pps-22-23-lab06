@@ -12,22 +12,22 @@ object FunctionsImpl extends Functions:
     def unit: A
     def combine(a: A, b: A): A
 
-  object Sum extends Combiner[Double]:
+  given Combiner[Double] with
     override def unit: Double = 0.0
     override def combine(a: Double, b: Double): Double = a + b
 
-  object Concat extends Combiner[String]:
+  given Combiner[String] with
     override def unit: String = ""
     override def combine(a: String, b: String): String = a ++ b
 
-  object Max extends Combiner[Int]:
+  given Combiner[Int] with
     override def unit: Int = Integer.MIN_VALUE
     override def combine(a: Int, b: Int): Int = a max b
 
-  private def combiner[A](a: Iterable[A])(c: Combiner[A]): A = a.foldRight(c.unit)(c.combine)
-  override def sum(a: List[Double]): Double = combiner(a)(Sum)
-  override def concat(a: Seq[String]): String = combiner(a)(Concat)
-  override def max(a: List[Int]): Int = combiner(a)(Max)
+  private def combiner[A](a: Iterable[A])(using c: Combiner[A]): A = a.foldRight(c.unit)(c.combine)
+  override def sum(a: List[Double]): Double = combiner(a)
+  override def concat(a: Seq[String]): String = combiner(a)
+  override def max(a: List[Int]): Int = combiner(a)
 
 /*
  * 2) To apply DRY principle at the best,
