@@ -1,7 +1,21 @@
 package u06lab.code
 
+import scala.collection.IterableFactory
+
 object Solitaire extends App:
-  def render(solution: Seq[(Int, Int)], width: Int, height: Int): String =
+
+  private type Position = (Int, Int)
+  private type Solution = Seq[Position]
+  given Int = 0
+
+  private val width = 5
+  private val height = 5
+
+  def computeSolutions(width: Int, height: Int)(using n: Int): Seq[Solution] =
+    n match
+      case 0 => ???
+
+  def render(solution: Solution, width: Int, height: Int): String =
     val reversed = solution.reverse
     val rows =
       for y <- 0 until height
@@ -11,5 +25,5 @@ object Solitaire extends App:
       yield row.mkString
     rows.mkString("\n")
 
-
-  println(render(solution = Seq((0, 0), (2, 1)), width = 3, height = 3))
+  computeSolutions(width, height).zipWithIndex foreach ((s, i) =>
+    println("\n Soluzione " + (i + 1) + "\n" + render(s, width, height)))
